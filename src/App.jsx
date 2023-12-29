@@ -1,6 +1,7 @@
 import React from 'react';
 import Artists from './components/ArtistsList';
 import AlbumsList from './components/AlbumsList';
+import Reproducer from './components/Reproducer';
 
 const App = () => {
     const artists = [
@@ -53,7 +54,7 @@ const App = () => {
     return (
         <div className='app flex flex-col'>
             <div className='h-[15vh] bg-blue-500'>
-                <h1>Reporductor</h1>
+                <Reproducer />
             </div>
             <div className='h-[10vh] bg-orange-400'>
                 <h1>nav</h1>
