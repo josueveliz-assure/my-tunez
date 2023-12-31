@@ -2,6 +2,7 @@ import React from 'react';
 import Artists from './components/ArtistsList';
 import AlbumsList from './components/AlbumsList';
 import Reproducer from './components/Reproducer';
+import OptionsToolbar from './components/OptionsToolbar';
 
 const App = () => {
     const artists = [
@@ -57,7 +58,7 @@ const App = () => {
                 <Reproducer />
             </div>
             <div className='h-[10vh] bg-orange-400'>
-                <h1>nav</h1>
+                <OptionsToolbar />
             </div>
             <div className='h-[75vh] flex flex-row'>
                 <div className='basis-1/4 bg-red-500'>
