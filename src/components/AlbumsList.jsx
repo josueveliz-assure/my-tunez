@@ -15,7 +15,7 @@ const AlbumsList = ({ albums }) => {
                                 <img className="object-cover h-48 w-48 rounded-md" src={album.albumCover}/>
                             </div>
                             <li key={index} className="flex-grow block-item">
-                                <h2 className="menu-title">{album.title}</h2>
+                                <h2 className="menu-title">{album.title}{' • '}{album.releaseDate.split('-')[0]}</h2>
                                 <ul className="overflow-y-auto max-h-48">
                                     {album.musicList.map((music, index) => (
                                         <li key={index}>

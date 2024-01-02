@@ -31,6 +31,9 @@ const TimeForm = ({
     if (newValue < 0) {
       newValue = 0;
     }
+    if (newValue > 59) {
+      newValue = 59;
+    }
     setSeconds(newValue);
     onInput(`${minutes}:${newValue}`);
   };
