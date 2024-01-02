@@ -26,7 +26,15 @@ const ArtistForm = () => {
   }, [members]);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+        }
+      }}
+    >
       <TextForm label='Name' value={name} onInput={setName} isRequired/>
       <MultiValueForm label='Members' values={members} onInput={setMembers} isRequired/>
       <TextForm label='website' value={website} onInput={setWebsite} isRequired/>
