@@ -10,11 +10,11 @@ import { useArtistStore } from './stores/useArtistStore';
 import { useAlbumStore } from './stores/useAlbumStore';
 
 const App = () => {
-    /*
+    
     if (!localStorage.getItem('artists')) {
         loadLocalStorage();
     }
-    */
+    
     const [artistList, setArtistList] = useState(getAllArtist());
     const [albumList, setAlbumList] = useState(getAllAlbums(true));
 
@@ -34,7 +34,6 @@ const App = () => {
     }, [artists]);
 
     useEffect(() => {
-        console.log(albums);
         setAlbumList(albums);
     }, [albums]);
 

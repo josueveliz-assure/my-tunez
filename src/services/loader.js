@@ -18,7 +18,7 @@ const artists = [
       'Jeremy Freedman'
     ],
     website: 'https://thenbhd.com/',
-    imagePaht: 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/50233830-e600-44b0-b94e-3cedc6406004/d73jgne-f3eada32-7199-4b18-be12-84f2f608b68e.jpg/v1/fill/w_204,h_204,q_75,strp/the_neighbourhood_logo_by_vampykatty_d73jgne-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MjA0IiwicGF0aCI6IlwvZlwvNTAyMzM4MzAtZTYwMC00NGIwLWI5NGUtM2NlZGM2NDA2MDA0XC9kNzNqZ25lLWYzZWFkYTMyLTcxOTktNGIxOC1iZTEyLTg0ZjJmNjA4YjY4ZS5qcGciLCJ3aWR0aCI6Ijw9MjA0In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.A-DF8ggAGxd7n92KLtpcHapSsN1ZKyZz4iHgLHZVfto'
+    imagePath: 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/50233830-e600-44b0-b94e-3cedc6406004/d73jgne-f3eada32-7199-4b18-be12-84f2f608b68e.jpg/v1/fill/w_204,h_204,q_75,strp/the_neighbourhood_logo_by_vampykatty_d73jgne-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MjA0IiwicGF0aCI6IlwvZlwvNTAyMzM4MzAtZTYwMC00NGIwLWI5NGUtM2NlZGM2NDA2MDA0XC9kNzNqZ25lLWYzZWFkYTMyLTcxOTktNGIxOC1iZTEyLTg0ZjJmNjA4YjY4ZS5qcGciLCJ3aWR0aCI6Ijw9MjA0In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.A-DF8ggAGxd7n92KLtpcHapSsN1ZKyZz4iHgLHZVfto'
   },
   {
     id: '2',
@@ -31,7 +31,7 @@ const artists = [
       'Matt Helders'
     ],
     website: 'https://www.arcticmonkeys.com/',
-    imagePaht: 'https://i.scdn.co/image/ab6761610000e5eb7da39dea0a72f581535fb11f'
+    imagePath: 'https://i.scdn.co/image/ab6761610000e5eb7da39dea0a72f581535fb11f'
   },
   {
     id: '3',
@@ -45,7 +45,7 @@ const artists = [
       'Fabrizio Moretti'
     ],
     website: 'https://www.thestrokes.com/',
-    imagePaht: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/The_Strokes_by_Roger_Woolman.jpg/300px-The_Strokes_by_Roger_Woolman.jpg'
+    imagePath: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/The_Strokes_by_Roger_Woolman.jpg/300px-The_Strokes_by_Roger_Woolman.jpg'
   },
   {
     id: '4',
@@ -58,7 +58,7 @@ const artists = [
       'Ronnie Vannucci Jr.'
     ],
     website: 'https://www.thekillersmusic.com/',
-    imagePaht: 'https://i.scdn.co/image/ab6761610000e5eb207b21f3ed0ee96adce3166a'
+    imagePath: 'https://i.scdn.co/image/ab6761610000e5eb207b21f3ed0ee96adce3166a'
   },
   {
     id: '5',
@@ -69,7 +69,7 @@ const artists = [
       'Patrick Carney'
     ],
     website: 'https://www.theblackkeys.com/',
-    imagePaht: 'https://i.scdn.co/image/ab6761610000e5ebae537808bd15be9f7031e99b'
+    imagePath: 'https://i.scdn.co/image/ab6761610000e5ebae537808bd15be9f7031e99b'
   },
   {
     id: '6',
@@ -82,7 +82,7 @@ const artists = [
       'Alexis Nunez'
     ],
     website: 'https://thekooks.com/',
-    imagePaht: 'https://i.scdn.co/image/ab6761610000e5ebd263e0042b36fd357c8c7cdb'
+    imagePath: 'https://i.scdn.co/image/ab6761610000e5ebd263e0042b36fd357c8c7cdb'
   }
 ];
 
