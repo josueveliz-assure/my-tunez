@@ -1,10 +1,10 @@
 import { v4 as uuid } from 'uuid';
 
-export const saveArtist = ({name, genderList, members, website, imagePath}) => {
+export const saveArtist = ({name, members, website, imagePath}) => {
   const artist = {
     id: uuid(),
     name,
-    genderList,
+    genderList: [],
     members,
     website,
     imagePath
@@ -35,8 +35,31 @@ export const saveMusic = ({title, gender, releaseYear, artistId, albumId, length
   const musicList = getAllMusic();
   musicList.push(music);
 
+  addGender(artistId, gender);
+  addAlbum(albumId, music.id);
+
   localStorage.setItem('music', JSON.stringify(musicList));
 }
+
+const addGender = (artistId, gender) => {
+  const artists = getAllArtist();
+  const artist = artists.find(artist => artist.id === artistId);
+  if (artist && !artist.genderList.includes(gender)) {
+    artist.genderList.push(gender);
+
+    localStorage.setItem('artists', JSON.stringify(artists));
+  }
+};
+
+const addAlbum = (albumId, musicId) => {
+  const albums = getAllAlbums();
+  const album = albums.find(album => album.id === albumId);
+  if (album && !album.musicList.includes(musicId)) {
+    album.musicList.push(musicId);
+
+    localStorage.setItem('albums', JSON.stringify(albums));
+  }
+};
 
 export const getAllMusic = () => {
   return JSON.parse(localStorage.getItem('music')) || [];
@@ -50,14 +73,14 @@ const getMusicOfArtist = ({artistId}) => {
   return artistMusic;
 }
 
-export const saveAlbum = ({title, gender, releaseYear, albumCover, musicList}) => {
+export const saveAlbum = ({title, gender, releaseYear, albumCover}) => {
   const album = {
     id: uuid(),
     title,
     gender,
     releaseYear,
     albumCover,
-    musicList
+    musicList: []
   };
 
   const albums = getAllAlbums();

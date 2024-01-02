@@ -8,13 +8,15 @@
   padding: 0;
 }
 
+
 ::-webkit-scrollbar-thumb {
-  background-color: #4F46E5;
+  background-color: #dcdddf;
   border-radius: 6px;
-  border: 3px solid #4F46E5;
+  border: 3px solid #dcdddf;
 }
 
 ::-webkit-scrollbar {
+  border-radius: 3px;
   width: 10px;
   background-color: #F3F4F6;
 }
@@ -28,12 +30,25 @@ hr {
   border: 1px solid #c8cacd;
 }
 
-.block-item:before {
+.block-item::before {
   position: absolute;
   bottom: 0.75rem;
   inset-inline-start: 0px;
   top: 0.75rem;
   width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-bg-opacity)));
+  opacity: 0.2;
+  content: "";
+}
+
+.artist-block::before {
+  position: absolute;
+  bottom: 0.75rem;
+  inset-inline-start: 0px;
+  top: 10.75rem;
+  width: 2px;
+  left: 25%;
   --tw-bg-opacity: 1;
   background-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-bg-opacity)));
   opacity: 0.2;
