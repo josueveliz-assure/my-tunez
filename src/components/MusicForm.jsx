@@ -6,24 +6,29 @@ import TimeForm from './form/TimeForm';
 import {
   getAllArtist,
   getAllAlbums,
-  albumsOfArtist
+  albumsOfArtist,
+  artistsOfAlbum,
+  saveMusic
 } from '../services/localStorageHandler';
+import { useAlbumStore } from '../stores/useAlbumStore';
+import { useArtistStore } from '../stores/useArtistStore';
 
 const MusicForm = () => {
   const [title, setTitle] = useState('');
   const [gender, setGender] = useState('');
   const [releaseDate, setReleaseDate] = useState('');
-  const [artist, setArtist] = useState('');
-  const [album, setAlbum] = useState('');
-  const [albums, setAlbums] = useState(getAllAlbums());
+  const [artist, setArtist] = useState(null);
+  const [album, setAlbum] = useState(null);
+  const [albumList, setAlbumList] = useState(getAllAlbums());
+  const [artists, setArtists] = useState(getAllArtist());
   const [duration, setDuration] = useState('');
   const [link, setLink] = useState('');
   const [saved, setSaved] = useState(false);
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    console.log('submit');
+  const { setAlbums } = useAlbumStore();
+  const { artistId } = useArtistStore();
 
+  const resetValues = () => {
     setTitle('');
     setGender('');
     setReleaseDate('');
@@ -31,17 +36,53 @@ const MusicForm = () => {
     setAlbum('');
     setDuration('00:00');
     setLink('');
+  }
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    save();
+
+    resetValues();
 
     setSaved(true);
+    console.log(artistId)
+    if (!artistId) {
+      setAlbums(getAllAlbums(true));
+    } else {
+      setAlbums(albumsOfArtist(artist));
+    }
+  };
+
+  const save = () => {
+    const newMusic = {
+      title,
+      gender,
+      releaseDate,
+      artistId : artist,
+      albumId : album,
+      length: duration,
+      link,
+    };
+
+    saveMusic(newMusic);
   };
 
   useEffect(() => {
-    if (artist !== '') {
-      setAlbums(albumsOfArtist(parseInt(artist)));
+    if (artist) {
+      console.log("#: ", artist);
+      setAlbumList(albumsOfArtist(artist));
     } else {
-      setAlbums(getAllAlbums());
+      setAlbumList(getAllAlbums());
     }
   }, [artist]);
+
+  useEffect(() => {
+    if (album) {
+      setArtists(artistsOfAlbum(album));
+    } else {
+      setArtists(getAllArtist());
+    }
+  }, [album]);
 
   useEffect(() => {
     console.log(duration);
@@ -68,7 +109,7 @@ const MusicForm = () => {
         onInput={setArtist}
         isRequired
         options={
-          getAllArtist().map(artist => ({value: artist.id, label: artist.name}))
+          artists.map(artist => ({value: artist.id, label: artist.name}))
         }
       />
       <SelectForm
@@ -77,14 +118,14 @@ const MusicForm = () => {
         onInput={setAlbum}
         isRequired
         options={
-          albums.map(album => ({value: album.id, label: album.title}))
+          albumList.map(album => ({value: album.id, label: album.title}))
         }
       />
       <TimeForm label='Duration' value={duration} onInput={setDuration} isRequired/>
       <TextForm label='Link mp3' value={link} onInput={setLink} isRequired/>
       <div className="modal-action">
         <form method="dialog">
-          <button className="btn">Close</button>
+          <button className="btn" onClick={resetValues}>Close</button>
         </form>
         <button
             type="submit"

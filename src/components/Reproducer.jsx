@@ -1,12 +1,19 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import MusicInfo from "./MusicInfo";
+import { useMusicStore } from "../stores/useMusicStore";
+import { getMusicById } from "../services/localStorageHandler";
 
 const Reproducer = () => {
-    const music = {
-        imageAlbum: "https://picsum.photos/200/300",
-        title: "Music 1",
-        author: "Artist 1",
-    }
+    const [music, setMusic] = useState(null);
+    const { musicId } = useMusicStore();
+
+    useEffect(() => {
+        setMusic(getMusicById(musicId));
+    }, [musicId]);
+
+    useEffect(() => {
+        console.log(music);
+    }, [music]);
 
     return (
         <div className="h-full flex items-center">

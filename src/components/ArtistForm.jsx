@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import TextForm from './form/TextForm';
 import MultiValueForm from './form/MultiValueForm';
+import { saveArtist } from '../services/localStorageHandler';
+import { useArtistStore } from '../stores/useArtistStore';
 
 const ArtistForm = () => {
   const [name, setName] = useState('');
@@ -9,21 +11,48 @@ const ArtistForm = () => {
   const [image, setImage] = useState('');
   const [saved, setSaved] = useState(false);
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    console.log('submit');
+  const { setArtists } = useArtistStore();
 
+  const resetValues = () => {
     setName('');
     setMembers([]);
     setWebsite('');
     setImage('');
+  }
 
+  const handleSubmit = event => {
+    event.preventDefault();
+    save();
     setSaved(true);
+
+    resetValues();
   };
+
+  const save = () => {
+    const newArtist = {
+      name,
+      members,
+      website,
+      image,
+    };
+
+    saveArtist(newArtist);
+    setArtists();
+  }
 
   useEffect(() => {
     console.log(members);
   }, [members]);
+
+  useEffect(() => {
+    if (saved) {
+      const timer = setTimeout(() => {
+        setSaved(false);
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [saved]);
 
   return (
     <form
@@ -41,7 +70,7 @@ const ArtistForm = () => {
       <TextForm label='image' value={image} onInput={setImage} isRequired/>
       <div className="modal-action">
         <form method="dialog">
-          <button className="btn">Close</button>
+          <button className="btn" onClick={resetValues}>Close</button>
         </form>
         <button
             type="submit"

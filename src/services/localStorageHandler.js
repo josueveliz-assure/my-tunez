@@ -20,12 +20,12 @@ export const getAllArtist = () => {
   return JSON.parse(localStorage.getItem('artists')) || [];
 }
 
-export const saveMusic = ({title, gender, releaseYear, artistId, albumId, length, link}) => {
+export const saveMusic = ({title, gender, releaseDate, artistId, albumId, length, link}) => {
   const music = {
     id: uuid(),
     title,
     gender,
-    releaseYear,
+    releaseDate,
     artistId,
     albumId,
     length,
@@ -65,22 +65,37 @@ export const getAllMusic = () => {
   return JSON.parse(localStorage.getItem('music')) || [];
 }
 
-const getMusicOfArtist = ({artistId}) => {
+export const getMusicById = (musicId) => {
   const musicList = getAllMusic();
-
-  const artistMusic = musicList.filter(music => music.artistId === artistId);
-
-  return artistMusic;
+  const music =  musicList.find(music => music.id === musicId);
+  if (music) {
+    music.artist = getArtistById(music.artistId);
+    music.album = getAlbumById(music.albumId);
+  }
+  return music;
 }
 
-export const saveAlbum = ({title, gender, releaseYear, albumCover}) => {
+const getAlbumById = (albumId) => {
+  const albums = getAllAlbums();
+  const album = albums.find(album => album.id === albumId);
+  return album;
+}
+
+const getArtistById = (artistId) => {
+  const artists = getAllArtist();
+  const artist = artists.find(artist => artist.id === artistId);
+  return artist;
+}
+
+export const saveAlbum = ({title, gender, releaseDate, albumCover, artistId}) => {
   const album = {
     id: uuid(),
     title,
     gender,
-    releaseYear,
+    releaseDate,
     albumCover,
-    musicList: []
+    musicList: [],
+    artistId
   };
 
   const albums = getAllAlbums();
@@ -108,9 +123,12 @@ const getMusicListOfAlbum = (album) => {
 
 export const albumsOfArtist = (artistId) => {
   const albums = getAllAlbums(true);
-  return albums.filter(album => isOwnerOfAlbum(artistId, album));
+  return albums.filter(album => album.artistId === artistId);
 }
 
-const isOwnerOfAlbum = (artistId, album) => {
-  return album.musicList.some(music => music.artistId === artistId);
+export const artistsOfAlbum = (albumId) => {
+  const album = getAllAlbums().find(album => album.id === albumId);
+  console.log(album);
+  const artists = getAllArtist();
+  return artists.filter(artist => artist.id === album.artistId);
 }
