@@ -1,6 +1,10 @@
-import React from "react";
+import { useState } from "react";
+import { useMusicStore } from "../stores/useMusicStore";
 
 const AlbumsList = ({ albums }) => {
+    const [musicList, setMusicList] = useState([]);
+    const { setMusicId } = useMusicStore();
+
     return (
         <div className="overflow-y-auto max-h-full max-w-full">
             <ul className="menu bg-base-200">
@@ -15,7 +19,7 @@ const AlbumsList = ({ albums }) => {
                                 <ul className="overflow-y-auto max-h-48">
                                     {album.musicList.map((music, index) => (
                                         <li key={index}>
-                                            <a className="pt-3 pb-3">{music.title}</a>
+                                            <a className="pt-3 pb-3" onClick={() => setMusicId(music.id)}>{music.title}</a>
                                         </li>
                                     ))}
                                 </ul>
