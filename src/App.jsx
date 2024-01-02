@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Artists from './components/ArtistsList';
 import AlbumsList from './components/AlbumsList';
-import Reproducer from './components/Reproducer';
+import MusicPlayer from './components/MusicPlayer';
 import OptionsToolbar from './components/OptionsToolbar';
 import { loadLocalStorage } from './services/loader';
 import { getAllArtist, getAllAlbums, albumsOfArtist } from './services/localStorageHandler';
@@ -40,7 +40,7 @@ const App = () => {
     return (
         <div className='app flex flex-col'>
             <div className='h-[15vh] bg-base-content text-slate-400'>
-                <Reproducer />
+                <MusicPlayer />
             </div>
             <div className='h-[10vh] bg-base-300'>
                 <OptionsToolbar />

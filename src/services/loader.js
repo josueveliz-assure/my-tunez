@@ -8,7 +8,7 @@ const artists = [
   {
     id: '1',
     name: 'The Neighbourhood',
-    genderList: ['alternative', 'indie'],
+    genreList: ['alternative', 'indie'],
     members: [
       'Jesse Rutherford',
       'Zach Abels',
@@ -23,7 +23,7 @@ const artists = [
   {
     id: '2',
     name: 'Arctic Monkeys',
-    genderList: ['indie', 'rock'],
+    genreList: ['indie', 'rock'],
     members: [
       'Alex Turner',
       'Jamie Cook',
@@ -36,7 +36,7 @@ const artists = [
   {
     id: '3',
     name: 'The Strokes',
-    genderList: ['indie', 'rock'],
+    genreList: ['indie', 'rock'],
     members: [
       'Julian Casablancas',
       'Albert Hammond Jr.',
@@ -50,7 +50,7 @@ const artists = [
   {
     id: '4',
     name: 'The Killers',
-    genderList: ['indie', 'rock'],
+    genreList: ['indie', 'rock'],
     members: [
       'Brandon Flowers',
       'Dave Keuning',
@@ -63,7 +63,7 @@ const artists = [
   {
     id: '5',
     name: 'The Black Keys',
-    genderList: ['indie', 'rock'],
+    genreList: ['indie', 'rock'],
     members: [
       'Dan Auerbach',
       'Patrick Carney'
@@ -74,7 +74,7 @@ const artists = [
   {
     id: '6',
     name: 'The Kooks',
-    genderList: ['indie', 'rock'],
+    genreList: ['indie', 'rock'],
     members: [
       'Luke Pritchard',
       'Hugh Harris',
@@ -90,7 +90,7 @@ const musicList = [
   {
     id: '1',
     title: 'Sweater Weather',
-    gender: 'alternative',
+    genre: 'alternative',
     releaseDate: '2013-02',
     artistId: '1',
     albumId: '1',
@@ -100,7 +100,7 @@ const musicList = [
   {
     id: '2',
     title: 'Daddy Issues',
-    gender: 'alternative',
+    genre: 'alternative',
     releaseDate: '2015-04',
     artistId: '1',
     albumId: '2',
@@ -110,7 +110,7 @@ const musicList = [
   {
     id: '3',
     title: 'Softcore',
-    gender: 'alternative',
+    genre: 'alternative',
     releaseDate: '2018-07',
     artistId: '1',
     albumId: '3',
@@ -120,7 +120,7 @@ const musicList = [
   {
     id: '4',
     title: 'Reflections',
-    gender: 'indie',
+    genre: 'indie',
     releaseDate: '2018-11',
     artistId: '1',
     albumId: '3',
@@ -130,7 +130,7 @@ const musicList = [
   {
     id: '5',
     title: 'You Get Me So High',
-    gender: 'alternative',
+    genre: 'alternative',
     releaseDate: '2018-01',
     artistId: '1',
     albumId: '3',
@@ -140,7 +140,7 @@ const musicList = [
   {
     id: '6',
     title: 'Nervous',
-    gender: 'alternative',
+    genre: 'alternative',
     releaseDate: '2018-2',
     artistId: '1',
     albumId: '3',
@@ -150,7 +150,7 @@ const musicList = [
   {
     id: '7',
     title: 'Dust',
-    gender: 'indie',
+    genre: 'indie',
     releaseDate: '2018-02',
     artistId: '1',
     albumId: '3',

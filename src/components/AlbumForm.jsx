@@ -7,7 +7,7 @@ import { useAlbumStore } from '../stores/useAlbumStore';
 
 const AlbumForm = () => {
   const [title, setTitle] = useState('');
-  const [gender, setGender] = useState('');
+  const [genre, setGenre] = useState('');
   const [releaseDate, setReleaseDate] = useState('');
   const [coverImage, setCoverImage] = useState('');
   const [saved, setSaved] = useState(false);
@@ -18,7 +18,7 @@ const AlbumForm = () => {
 
   const resetValues = () => {
     setTitle('');
-    setGender('');
+    setGenre('');
     setReleaseDate('');
     setCoverImage('');
     setArtistList(getAllArtist());
@@ -36,7 +36,7 @@ const AlbumForm = () => {
     const newAlbum = {
       title,
       artistId: artist,
-      gender,
+      genre,
       releaseDate,
       albumCover: coverImage,
     };
@@ -67,7 +67,7 @@ const AlbumForm = () => {
           artistList.map(artist => ({value: artist.id, label: artist.name}))
         }
       />
-      <TextForm label='Gender' value={gender} onInput={setGender} isRequired/>
+      <TextForm label='Genre' value={genre} onInput={setGenre} isRequired/>
       <DateForm label='Release Date' value={releaseDate} onInput={setReleaseDate} isRequired/>
       <TextForm label='Cover Image' value={coverImage} onInput={setCoverImage} isRequired/>
       <div className="modal-action">
@@ -76,7 +76,7 @@ const AlbumForm = () => {
         </form>
         <button
             type="submit"
-            disabled={!title || !gender || !releaseDate || !coverImage}
+            disabled={!title || !genre || !releaseDate || !coverImage}
             className="btn btn-outline"
           >
           Submit

@@ -3,7 +3,7 @@ import MusicInfo from "./MusicInfo";
 import { useMusicStore } from "../stores/useMusicStore";
 import { getMusicById } from "../services/localStorageHandler";
 
-const Reproducer = () => {
+const MusicPlayer = () => {
     const [music, setMusic] = useState(null);
     const { musicId } = useMusicStore();
 
@@ -26,4 +26,4 @@ const Reproducer = () => {
     );
 };
 
-export default Reproducer;
+export default MusicPlayer;
