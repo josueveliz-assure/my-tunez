@@ -8,14 +8,14 @@ const AlbumsList = ({ albums }) => {
                     <div className="">
                         <div className="flex flex-row">
                             <div className="mt-4 mb-4 mr-3">
-                                <img className="object-cover h-48 w-48 rounded-md" src={album.portrait}/>
+                                <img className="object-cover h-48 w-48 rounded-md" src={album.albumCover}/>
                             </div>
                             <li key={index} className="flex-grow block-item">
-                                <h2 className="menu-title">{album.name}</h2>
+                                <h2 className="menu-title">{album.title}</h2>
                                 <ul className="overflow-y-auto max-h-48">
-                                    {album.musics.map((music, index) => (
+                                    {album.musicList.map((music, index) => (
                                         <li key={index}>
-                                            <a className="pt-3 pb-3">{music}</a>
+                                            <a className="pt-3 pb-3">{music.title}</a>
                                         </li>
                                     ))}
                                 </ul>
@@ -24,6 +24,11 @@ const AlbumsList = ({ albums }) => {
                         <hr/>
                     </div>
                 ))}
+                {albums.length === 0 && (
+                    <li>
+                        <a className='pt-3 pb-3 text-xl'>No Albums </a>
+                    </li>
+                )}
             </ul>
         </div>
     );

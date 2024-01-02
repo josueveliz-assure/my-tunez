@@ -1,11 +1,47 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import Artists from './components/ArtistsList';
 import AlbumsList from './components/AlbumsList';
 import Reproducer from './components/Reproducer';
 import OptionsToolbar from './components/OptionsToolbar';
+import { loadLocalStorage } from './services/loader';
+import { getAllArtist, getAllAlbums } from './services/localStorageHandler';
 
 const App = () => {
-    const artists = [
+    /*
+    if (!localStorage.getItem('artists')) {
+        loadLocalStorage();
+    }
+    */
+
+    const [artists, setArtists] = useState(getAllArtist());
+    const [albums, setAlbums] = useState(getAllAlbums(true));
+
+
+    return (
+        <div className='app flex flex-col'>
+            <div className='h-[15vh] bg-base-content text-slate-400'>
+                <Reproducer />
+            </div>
+            <div className='h-[10vh] bg-base-300'>
+                <OptionsToolbar />
+            </div>
+            <div className='h-[75vh] flex flex-row'>
+                <div className='basis-1/4 bg-base-200 artist-block'>
+                    <Artists artists={artists}/>
+                </div>
+                <div className='flex-grow bg-base-200'>
+                    <AlbumsList albums={albums}/>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default App;
+
+/*
+const artists = [
         { name: 'Artist 1' },
         { name: 'Artist 2' },
         { name: 'Artist 3' },
@@ -52,24 +88,4 @@ const App = () => {
             ]
         }
     ]
-    return (
-        <div className='app flex flex-col'>
-            <div className='h-[15vh] bg-blue-500'>
-                <Reproducer />
-            </div>
-            <div className='h-[10vh] bg-orange-400'>
-                <OptionsToolbar />
-            </div>
-            <div className='h-[75vh] flex flex-row'>
-                <div className='basis-1/4 bg-red-500'>
-                    <Artists artists={artists}/>
-                </div>
-                <div className='flex-grow bg-green-500'>
-                    <AlbumsList albums={albums}/>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-export default App;
+*/
