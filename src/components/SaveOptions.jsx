@@ -19,7 +19,7 @@ const SaveOptions = () => {
   const [typeForm, setTypeForm] = useState('');
 
   return (
-    <div className="join join-vertical lg:join-horizontal">
+    <div className="join join-horizontal lg:join-horizontal">
       <button className="btn join-item"  onClick={ ()=>{setTypeForm('music'); document.getElementById('form_modal').showModal()}}>
         <img className="w-7 h-7" src={addMusicLogo} alt="add Music" />
       </button>

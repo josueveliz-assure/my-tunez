@@ -15,7 +15,7 @@ import { useArtistStore } from '../stores/useArtistStore';
 
 const MusicForm = () => {
   const [title, setTitle] = useState('');
-  const [gender, setGender] = useState('');
+  const [genre, setGenre] = useState('');
   const [releaseDate, setReleaseDate] = useState('');
   const [artist, setArtist] = useState(null);
   const [album, setAlbum] = useState(null);
@@ -30,7 +30,7 @@ const MusicForm = () => {
 
   const resetValues = () => {
     setTitle('');
-    setGender('');
+    setGenre('');
     setReleaseDate('');
     setArtist('');
     setAlbum('');
@@ -56,7 +56,7 @@ const MusicForm = () => {
   const save = () => {
     const newMusic = {
       title,
-      gender,
+      genre,
       releaseDate,
       artistId : artist,
       albumId : album,
@@ -101,7 +101,7 @@ const MusicForm = () => {
   return (
     <form onSubmit={handleSubmit} noValidate>
       <TextForm label='Title' value={title} onInput={setTitle} isRequired/>
-      <TextForm label='Gender' value={gender} onInput={setGender} isRequired/>
+      <TextForm label='Genre' value={genre} onInput={setGenre} isRequired/>
       <DateForm label='Release Date' value={releaseDate} onInput={setReleaseDate} isRequired/>
       <SelectForm
         label='Artist'
@@ -129,7 +129,7 @@ const MusicForm = () => {
         </form>
         <button
             type="submit"
-            disabled={!title || !gender || !releaseDate || !artist || !album || !duration || !link}
+            disabled={!title || !genre || !releaseDate || !artist || !album || !duration || !link}
             className="btn btn-outline"
           >
           Submit
