@@ -95,7 +95,7 @@ const musicList = [
     artistId: '1',
     albumId: '1',
     length: '4:00',
-    link: ''
+    link: 'src/music/04 The Neighbourhood - Sweater Weather.mp3'
   },
   {
     id: '2',
@@ -105,7 +105,7 @@ const musicList = [
     artistId: '1',
     albumId: '2',
     length: '3:55',
-    link: ''
+    link: 'src\\music\\06 The Neighbourhood - Daddy Issues.mp3'
   },
   {
     id: '3',
@@ -115,7 +115,7 @@ const musicList = [
     artistId: '1',
     albumId: '3',
     length: '3:26',
-    link: ''
+    link: 'src\\music\\05 The Neighbourhood - Softcore.mp3'
   },
   {
     id: '4',
@@ -125,7 +125,7 @@ const musicList = [
     artistId: '1',
     albumId: '3',
     length: '4:04',
-    link: ''
+    link: 'src\\music\\10 The Neighbourhood - Reflections.mp3'
   },
   {
     id: '5',
@@ -135,7 +135,7 @@ const musicList = [
     artistId: '1',
     albumId: '3',
     length: '2:33',
-    link: ''
+    link: 'src\\music\\09 The Neighbourhood - You Get Me So High.mp3'
   },
   {
     id: '6',
@@ -145,7 +145,7 @@ const musicList = [
     artistId: '1',
     albumId: '3',
     length: '4:05',
-    link: ''
+    link: 'src\\music\\19 The Neighbourhood - Nervous.mp3'
   },
   {
     id: '7',
@@ -155,7 +155,7 @@ const musicList = [
     artistId: '1',
     albumId: '3',
     length: '3:28',
-    link: ''
+    link: 'src\\music\\01 The Neighbourhood - Dust.mp3'
   },
   {
     id: '8',
@@ -164,7 +164,7 @@ const musicList = [
     artistId: '1',
     albumId: '3',
     length: '3:42',
-    link: ''
+    link: 'src\\music\\04 The Neighbourhood - Scary Love.mp3'
   },
   {
     id: '9',
@@ -173,7 +173,7 @@ const musicList = [
     artistId: '2',
     albumId: '4',
     length: '4:32',
-    link: ''
+    link: 'src\\music\\01 Arctic Monkeys - Do I Wanna Know.mp3'
   }
 ];
 
