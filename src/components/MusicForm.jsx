@@ -14,6 +14,8 @@ import DateForm from './form/DateForm';
 import SelectForm from './form/SelectForm';
 import TimeForm from './form/TimeForm';
 
+import toast from 'react-hot-toast';
+
 const MusicForm = () => {
   const [title, setTitle] = useState('');
   const [genre, setGenre] = useState('');
@@ -24,7 +26,6 @@ const MusicForm = () => {
   const [artists, setArtists] = useState(getAllArtist());
   const [duration, setDuration] = useState('');
   const [link, setLink] = useState('');
-  const [saved, setSaved] = useState(false);
 
   const { setAlbums } = useAlbumStore();
   const { artistId } = useArtistStore();
@@ -39,21 +40,6 @@ const MusicForm = () => {
     setLink('');
   }
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    save();
-
-    resetValues();
-
-    setSaved(true);
-
-    setAlbums(
-      artistId
-        ? albumsOfArtist(artist)
-        : getAllAlbums(true)
-    );
-  };
-
   const save = () => {
     const newMusic = {
       title,
@@ -64,8 +50,24 @@ const MusicForm = () => {
       length: duration,
       link,
     };
-
     saveMusic(newMusic);
+
+    setAlbums(
+      artistId
+        ? albumsOfArtist(artist)
+        : getAllAlbums(true)
+    );
+  };
+
+  const notify = () => {
+    toast.success('Music saved!', {
+      duration: 2000,
+      position: 'top-center',
+      style: {
+        background: '#e5e6e6',
+        color: '#1f2937',
+      }
+    });
   };
 
   useEffect(() => {
@@ -84,18 +86,11 @@ const MusicForm = () => {
     );
   }, [album]);
 
-  useEffect(() => {
-    if (saved) {
-      const timer = setTimeout(() => {
-        setSaved(false);
-      }, 1500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [saved]);
-
   return (
-    <form onSubmit={handleSubmit} noValidate>
+    <form
+      onSubmit={e => {e.preventDefault(); resetValues();}}
+      noValidate
+    >
       <TextForm label='Title' value={title} onInput={setTitle} isRequired/>
       <TextForm label='Genre' value={genre} onInput={setGenre} isRequired/>
       <DateForm label='Release Date' value={releaseDate} onInput={setReleaseDate} isRequired/>
@@ -120,18 +115,27 @@ const MusicForm = () => {
       <TimeForm label='Duration' value={duration} onInput={setDuration} isRequired/>
       <TextForm label='Link mp3' value={link} onInput={setLink} isRequired/>
       <div className="modal-action">
-        <form method="dialog">
-          <button className="btn" onClick={resetValues}>Close</button>
-        </form>
         <button
-            type="submit"
-            disabled={!title || !genre || !releaseDate || !artist || !album || !duration || !link}
-            className="btn btn-outline"
-          >
-          Submit
+          type='button'
+          onClick={() => resetValues()}
+          className="btn btn-outline mr-2"
+        >
+          Reset Values
         </button>
+        <form method="dialog">
+          <button
+              type='submit'
+              disabled={!title || !genre || !releaseDate || !artist || !album || !duration || !link}
+              className="btn btn-outline"
+              onClick={() => {
+                notify();
+                save();
+              }}
+            >
+            Submit
+          </button>
+        </form>
       </div>
-      {saved && <p>Saved!</p>}
     </form>
   );
 }
