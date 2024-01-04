@@ -58,3 +58,11 @@ hr {
 .menu :where(li ul):before {
   display: none;
 }
+
+.player-btn {
+  visibility: hidden;
+}
+
+.music-item:hover .player-btn {
+  visibility: visible;
+}
