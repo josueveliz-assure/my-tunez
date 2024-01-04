@@ -4,17 +4,11 @@ import Artists from './components/ArtistsList';
 import AlbumsList from './components/AlbumsList';
 import MusicPlayer from './components/MusicPlayer';
 import OptionsToolbar from './components/OptionsToolbar';
-import { loadLocalStorage } from './services/loader';
 import { getAllArtist, getAllAlbums, albumsOfArtist } from './services/localStorageHandler';
 import { useArtistStore } from './stores/useArtistStore';
 import { useAlbumStore } from './stores/useAlbumStore';
 
 const App = () => {
-
-  if (!localStorage.getItem('artists')) {
-    loadLocalStorage();
-  }
-
   const [artistList, setArtistList] = useState(getAllArtist());
   const [albumList, setAlbumList] = useState(getAllAlbums(true));
 
