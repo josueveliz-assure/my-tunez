@@ -10,51 +10,51 @@ import { useArtistStore } from './stores/useArtistStore';
 import { useAlbumStore } from './stores/useAlbumStore';
 
 const App = () => {
-    
-    if (!localStorage.getItem('artists')) {
-        loadLocalStorage();
+
+  if (!localStorage.getItem('artists')) {
+    loadLocalStorage();
+  }
+
+  const [artistList, setArtistList] = useState(getAllArtist());
+  const [albumList, setAlbumList] = useState(getAllAlbums(true));
+
+  const { artistId, artists } = useArtistStore();
+  const { albums } = useAlbumStore();
+
+  useEffect(() => {
+    if (artistId) {
+      setAlbumList(albumsOfArtist(artistId));
+    } else {
+      setAlbumList(getAllAlbums(true));
     }
-    
-    const [artistList, setArtistList] = useState(getAllArtist());
-    const [albumList, setAlbumList] = useState(getAllAlbums(true));
+  }, [artistId]);
 
-    const { artistId, artists } = useArtistStore();
-    const { albums } = useAlbumStore();
+  useEffect(() => {
+    setArtistList(getAllArtist());
+  }, [artists]);
 
-    useEffect(() => {
-        if (artistId) {
-            setAlbumList(albumsOfArtist(artistId));
-        } else {
-            setAlbumList(getAllAlbums(true));
-        }
-    }, [artistId]);
+  useEffect(() => {
+    setAlbumList(albums);
+  }, [albums]);
 
-    useEffect(() => {
-        setArtistList(getAllArtist());
-    }, [artists]);
-
-    useEffect(() => {
-        setAlbumList(albums);
-    }, [albums]);
-
-    return (
-        <div className='app flex flex-col'>
-            <div className='h-[15vh] bg-base-content text-slate-400'>
-                <MusicPlayer />
-            </div>
-            <div className='h-[10vh] bg-base-300'>
-                <OptionsToolbar />
-            </div>
-            <div className='h-[75vh] flex flex-row'>
-                <div className='basis-1/4 bg-base-200 artist-block'>
-                    <Artists artists={artistList}/>
-                </div>
-                <div className='flex-grow bg-base-200'>
-                    <AlbumsList albums={albumList}/>
-                </div>
-            </div>
+  return (
+    <div className='app flex flex-col'>
+      <div className='h-[15vh] bg-base-content text-slate-400'>
+        <MusicPlayer />
+      </div>
+      <div className='h-[10vh] bg-base-300'>
+        <OptionsToolbar />
+      </div>
+      <div className='h-[75vh] flex flex-row'>
+        <div className='basis-1/4 bg-base-200 artist-block'>
+          <Artists artists={artistList} />
         </div>
-    );
+        <div className='flex-grow bg-base-200'>
+          <AlbumsList albums={albumList} />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default App;
