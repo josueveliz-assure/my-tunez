@@ -9,23 +9,28 @@ const AlbumsList = ({ albums }) => {
     const [currentMusicId, setCurrentMusicId] = useState(null);
     const [pressed, setPressed] = useState(true);
 
-    const { isPlaying, setIsPlaying, setPlaylist, setCurrentPosition } = usePlayerStore();
+    const { isPlaying, setIsPlaying, setPlaylist, setCurrentPosition, hasShuffled, setHasShuffled } = usePlayerStore();
 
     const handleClick = (musicId) => {
         setMusicId(musicId);
-        console.log("musicId: ", musicId);
         if (currentMusicId === musicId) {
             setIsPlaying(!isPlaying);
         } else if(pressed) {
             setIsPlaying(true);
             setPressed(false);
+
+            setMusicAndPlaylist(musicId);
         } else {
             setIsPlaying(true);
-        }
-        setCurrentMusicId(musicId);
 
-        changePlaylist(musicId);
+            setMusicAndPlaylist(musicId);
+        }
     };
+
+    const setMusicAndPlaylist = (musicId) => {
+        setMusicId(musicId);
+        changePlaylist(musicId);
+    }
 
     const changePlaylist = (musicId) => {
         const currentList = albums.map(album => album.musicList).flat();
@@ -33,7 +38,15 @@ const AlbumsList = ({ albums }) => {
 
         setCurrentPosition(pos);
         setPlaylist(currentList);
+
+        setHasShuffled(!hasShuffled);
     };
+
+    useEffect(() => {
+        if (musicId) {
+            setCurrentMusicId(musicId);
+        }
+    }, [musicId]);
 
     return (
         <div className="overflow-y-auto max-h-full max-w-full">
@@ -54,7 +67,7 @@ const AlbumsList = ({ albums }) => {
                                                 onClick={() => handleClick(music.id)}
                                             >
                                                 <div className="h-4 w-4 player-btn">
-                                                    {(isPlaying && musicId === music.id) ? <Pause/>  : <Play/>}
+                                                    {(isPlaying && currentMusicId === music.id) ? <Pause/>  : <Play/>}
                                                 </div>
                                                 <p>{music.title}</p>
                                             </a>

@@ -8,101 +8,8 @@ import Next from '../assets/Next';
 import Previous from '../assets/Previous';
 import Shuffle from '../assets/Shuffle';
 import Repeat from '../assets/Repeat';
-import VolumeSilence from "../assets/VolumeSilence";
-import Volume from "../assets/Volume";
-import { Slider } from "./Slider";
-
-const SongControl = ({ audio }) => {
-    const [currentTime, setCurrentTime] = useState(0);
-
-    useEffect(() => {
-        audio.current.addEventListener('timeupdate', handleTimeUpdate);
-
-        return () => {
-            audio.current.removeEventListener('timeupdate', handleTimeUpdate);
-        }
-    }, []);
-
-    const handleTimeUpdate = () => {
-        setCurrentTime(audio.current.currentTime);
-    };
-
-    const formatTime = (time) => {
-        if (time === 0 || isNaN(time)) {
-            return '0:00';
-        }
-
-        const minutes = Math.floor(time / 60);
-        const seconds = Math.floor(time % 60);
-
-        return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-    };
-
-    const duration = audio.current ? audio.current.duration : 0;
-
-    return (
-        <div className="flex gap-x-3 mt-2">
-            <span className="opacity-70">{formatTime(currentTime)}</span>
-                {   audio.current &&
-                    <Slider
-                        defaultValue={[0]}
-                        value={[currentTime]}
-                        min={0}
-                        max={audio.current.duration ?? 0}
-                        className="w-[400px]"
-                        onValueChange={(time) => {
-                            audio.current.currentTime = time;
-                        }}
-                    />
-                }
-            <span className="opacity-70">{formatTime(duration)}</span>
-        </div>
-    );
-}
-
-const VolumeControl = () => {
-    const [withVolume, setWithVolume] = useState(true);
-    const {volume, setVolume} = usePlayerStore();
-    const previousVolumeRef = useRef(volume);
-    const {currentSong} = usePlayerStore();
-
-    const handleVolume = (volume) => {
-        const [newVolume] = volume;
-        const volumeValue = newVolume / 100;
-
-        setVolume(volumeValue);
-        previousVolumeRef.current = volumeValue;
-    }
-
-    const handleSilence = () => {
-        if (withVolume) {
-            setVolume(0);
-        } else {
-            setVolume(previousVolumeRef.current);
-        }
-        setWithVolume(!withVolume);
-    };
-
-    return (
-        <div className="flex justify-center gap-x-2 text-gray-200">
-            <button
-                className={`h-4 w-4 ${!currentSong ? 'opacity-25' : 'hover:cursor-pointer opacity-70 hover:opacity-100 transition'}`}
-                disabled={!currentSong}
-                onClick={handleSilence}>
-                {volume > 0 ? <Volume /> : <VolumeSilence />}
-            </button>
-            <Slider
-                defaultValue={[50]}
-                min={0}
-                max={100}
-                value={[volume * 100]}
-                className={`w-[120px] ${!currentSong ? 'opacity-25' : 'hover:cursor-pointer opacity-90 hover:opacity-100 transition'}`}
-                onValueChange={(volume) => handleVolume(volume)}
-                disabled={!currentSong}
-            />
-        </div>
-    );
-}
+import SongControl from "./SongControl";
+import VolumeControl from "./VolumeControl";
 
 const MusicPlayer = () => {
     const [isShuffle, setIsShuffle] = useState(false);
@@ -110,9 +17,21 @@ const MusicPlayer = () => {
     const [music, setMusic] = useState(null);
     const [isDisabled, setIsDisabled] = useState(false);
 
-    const audioRef = useRef();
+    const audioRef = useRef(null);
+    const shufflePlaylistRef = useRef([]);
+    const shufflePositionRef = useRef(0);
 
-    const { isPlaying, setIsPlaying, playlist, currentPosition, setCurrentPosition, currentSong, setCurrentSong, volume } = usePlayerStore();
+    const {
+        isPlaying,
+        setIsPlaying,
+        playlist,
+        currentPosition,
+        setCurrentPosition,
+        currentSong,
+        setCurrentSong,
+        volume,
+        hasShuffled
+    } = usePlayerStore();
 
     const handlePlay = () => {
         setIsPlaying(!isPlaying);
@@ -120,6 +39,9 @@ const MusicPlayer = () => {
 
     const handleShuffle = () => {
         setIsShuffle(!isShuffle);
+        if (!isShuffle) {
+            buildShufflePlaylist();
+        }
     };
 
     const handleRepeat = () => {
@@ -128,13 +50,70 @@ const MusicPlayer = () => {
 
     const handleNext = () => {
         if (isShuffle) {
-            const randomPosition = Math.floor(Math.random() * playlist.length);
-            setCurrentPosition(randomPosition);
+            if (shufflePositionRef.current < shufflePlaylistRef.current.length - 1) {
+                shufflePositionRef.current++;
+            } else {
+                shufflePositionRef.current = 0;
+            }
+            const shuffleMusic = getMusicById(shufflePlaylistRef.current[shufflePositionRef.current].id);
+            setCurrentSong(
+                {
+                    id:shuffleMusic.id,
+                    title:shuffleMusic.title,
+                    artist:shuffleMusic.artist.name,
+                    album:shuffleMusic.album.title,
+                    albumCover:shuffleMusic.album.albumCover,
+                    link:shuffleMusic.link
+                }
+            );
         } else if (currentPosition < playlist.length - 1) {
             setCurrentPosition(currentPosition + 1);
         } else {
             setCurrentPosition(0);
         }
+
+        if (!isPlaying) {
+            setIsPlaying(true);
+        }
+    };
+
+    const handlePrevious = () => {
+        if(audioRef.current.currentTime > 10) {
+            audioRef.current.currentTime = 0;
+            return;
+        }
+
+        if (isShuffle) {
+            if (shufflePositionRef.current > 0) {
+                shufflePositionRef.current--;
+            } else {
+                shufflePositionRef.current = shufflePlaylistRef.current.length - 1;
+            }
+            const shuffleMusic = getMusicById(shufflePlaylistRef.current[shufflePositionRef.current].id);
+            setCurrentSong(
+                {
+                    id:shuffleMusic.id,
+                    title:shuffleMusic.title,
+                    artist:shuffleMusic.artist.name,
+                    album:shuffleMusic.album.title,
+                    albumCover:shuffleMusic.album.albumCover,
+                    link:shuffleMusic.link
+                }
+            );
+        } else if (currentPosition > 0) {
+            setCurrentPosition(currentPosition - 1);
+        } else {
+            setCurrentPosition(playlist.length - 1);
+        }
+    };
+
+
+    const buildShufflePlaylist = () => {
+        const currentList = [...playlist];
+        const shuffledList = currentList.sort(() => Math.random() - 0.5);
+
+        shufflePlaylistRef.current = shuffledList;
+        shufflePositionRef.current = shuffledList.findIndex(music => music.id === currentSong.id);
     };
 
     useEffect(() => {
@@ -165,8 +144,8 @@ const MusicPlayer = () => {
 
     useEffect(() => {
         isPlaying
-          ? audioRef.current.play()
-          : audioRef.current.pause();
+            ? audioRef.current.play()
+            : audioRef.current.pause();
     }, [isPlaying]);
 
     useEffect(() => {
@@ -192,7 +171,14 @@ const MusicPlayer = () => {
         return () => {
           audio.removeEventListener('timeupdate', handleTimeUpdate);
         };
-      }, [isRepeat, isPlaying]);
+    }, [isRepeat, isPlaying]);
+
+    useEffect(() => {
+        if (isShuffle && currentSong) {
+            buildShufflePlaylist();
+        }
+    }, [hasShuffled, playlist, currentPosition]);
+
 
     return (
         <div className="h-full flex items-center">
@@ -211,6 +197,7 @@ const MusicPlayer = () => {
                         </button>
                         <button
                             className="btn btn-xs btn-circle bg-gray-300 pl-1 pr-1"
+                            onClick={handlePrevious}
                             disabled={isDisabled ? "disabled" : ""}
                         >
                             <Previous />
