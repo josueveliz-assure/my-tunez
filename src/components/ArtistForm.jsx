@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { saveArtist } from '../services/localStorageHandler';
 import { useArtistStore } from '../stores/useArtistStore';
 
@@ -14,6 +14,8 @@ const ArtistForm = () => {
   const [image, setImage] = useState('');
 
   const { setArtists } = useArtistStore();
+
+  const needResetRef = useRef(false);
 
   const notify = () => {
     toast.success('Artist saved!', {
@@ -43,7 +45,16 @@ const ArtistForm = () => {
 
     saveArtist(newArtist);
     setArtists();
+
+    needResetRef.current = true;
   }
+
+  useEffect(() => {
+    if (needResetRef.current) {
+      resetValues();
+      needResetRef.current = false;
+    }
+  }, needResetRef.current);
 
   return (
     <form

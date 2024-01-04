@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   getAllArtist,
   getAllAlbums,
@@ -30,6 +30,8 @@ const MusicForm = () => {
   const { setAlbums } = useAlbumStore();
   const { artistId } = useArtistStore();
 
+  const needResetRef = useRef(false);
+
   const resetValues = () => {
     setTitle('');
     setGenre('');
@@ -57,7 +59,16 @@ const MusicForm = () => {
         ? albumsOfArtist(artist)
         : getAllAlbums(true)
     );
+
+    needResetRef.current = true;
   };
+
+  useEffect(() => {
+    if (needResetRef.current) {
+      resetValues();
+      needResetRef.current = false;
+    }
+  }, [needResetRef.current]);
 
   const notify = () => {
     toast.success('Music saved!', {
@@ -115,13 +126,6 @@ const MusicForm = () => {
       <TimeForm label='Duration' value={duration} onInput={setDuration} isRequired/>
       <TextForm label='Link mp3' value={link} onInput={setLink} isRequired/>
       <div className="modal-action">
-        <button
-          type='button'
-          onClick={() => resetValues()}
-          className="btn btn-outline mr-2"
-        >
-          Reset Values
-        </button>
         <form method="dialog">
           <button
               type='submit'
