@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   saveAlbum,
   getAllArtist,
@@ -19,6 +19,8 @@ const AlbumForm = () => {
   const [coverImage, setCoverImage] = useState('');
   const [artist, setArtist] = useState('');
   const [artistList, setArtistList] = useState(getAllArtist());
+
+  const needResetRef = useRef(false);
 
   const { setAlbums } = useAlbumStore();
 
@@ -52,7 +54,16 @@ const AlbumForm = () => {
 
     saveAlbum(newAlbum);
     setAlbums(albumsOfArtist(artist));
+
+    needResetRef.current = true;
   }
+
+  useEffect(() => {
+    if (needResetRef.current) {
+      resetValues();
+      needResetRef.current = false;
+    }
+  }, [needResetRef.current]);
 
   return (
     <form
@@ -73,13 +84,6 @@ const AlbumForm = () => {
       <DateForm label='Release Date' value={releaseDate} onInput={setReleaseDate} isRequired/>
       <TextForm label='Cover Image' value={coverImage} onInput={setCoverImage} isRequired/>
       <div className="modal-action">
-        <button
-          type='button'
-          onClick={() => resetValues()}
-          className="btn btn-outline mr-2"
-        >
-          Reset Values
-        </button>
         <form method="dialog">
           <button
               type='submit'
