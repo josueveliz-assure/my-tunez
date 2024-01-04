@@ -1,18 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { saveArtist } from '../services/localStorageHandler';
 import { useArtistStore } from '../stores/useArtistStore';
 
 import TextForm from './form/TextForm';
 import MultiValueForm from './form/MultiValueForm';
 
+import toast from 'react-hot-toast';
+
 const ArtistForm = () => {
   const [name, setName] = useState('');
   const [members, setMembers] = useState([]);
   const [website, setWebsite] = useState('');
   const [image, setImage] = useState('');
-  const [saved, setSaved] = useState(false);
 
   const { setArtists } = useArtistStore();
+
+  const needResetRef = useRef(false);
+
+  const notify = () => {
+    toast.success('Artist saved!', {
+      duration: 2000,
+      position: 'top-center',
+      style: {
+        background: '#e5e6e6',
+        color: '#1f2937',
+      }
+    });
+  };
 
   const resetValues = () => {
     setName('');
@@ -20,14 +34,6 @@ const ArtistForm = () => {
     setWebsite('');
     setImage('');
   }
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    save();
-    setSaved(true);
-
-    resetValues();
-  };
 
   const save = () => {
     const newArtist = {
@@ -39,21 +45,20 @@ const ArtistForm = () => {
 
     saveArtist(newArtist);
     setArtists();
+
+    needResetRef.current = true;
   }
 
   useEffect(() => {
-    if (saved) {
-      const timer = setTimeout(() => {
-        setSaved(false);
-      }, 1500);
-
-      return () => clearTimeout(timer);
+    if (needResetRef.current) {
+      resetValues();
+      needResetRef.current = false;
     }
-  }, [saved]);
+  }, [needResetRef.current]);
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={e => {e.preventDefault(); resetValues();}}
       noValidate
       onKeyDown={e => {
         if (e.key === 'Enter') {
@@ -67,17 +72,19 @@ const ArtistForm = () => {
       <TextForm label='image' value={image} onInput={setImage} isRequired/>
       <div className="modal-action">
         <form method="dialog">
-          <button className="btn" onClick={resetValues}>Close</button>
+          <button
+              type='submit'
+              disabled={!name || !members || !website || !image || members.length === 0}
+              className="btn btn-outline"
+              onClick={() => {
+                notify();
+                save();
+              }}
+            >
+            Submit
+          </button>
         </form>
-        <button
-            type="submit"
-            disabled={!name || !members || !website || !image || members.length === 0}
-            className="btn btn-outline"
-          >
-          Submit
-        </button>
       </div>
-      {saved && <p>Saved!</p>}
     </form>
   );
 }
