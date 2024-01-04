@@ -28,11 +28,11 @@ const AlbumsList = ({ albums }) => {
     };
 
     const changePlaylist = (musicId) => {
-        const currentAlbum = albums.find(album => album.musicList.find(music => music.id === musicId));
-        const pos = currentAlbum.musicList.findIndex(music => music.id === musicId);
+        const currentList = albums.map(album => album.musicList).flat();
+        const pos = currentList.findIndex(music => music.id === musicId);
 
         setCurrentPosition(pos);
-        setPlaylist(currentAlbum.musicList);
+        setPlaylist(currentList);
     };
 
     return (

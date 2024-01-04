@@ -64,6 +64,7 @@ const VolumeControl = () => {
     const [withVolume, setWithVolume] = useState(true);
     const {volume, setVolume} = usePlayerStore();
     const previousVolumeRef = useRef(volume);
+    const {currentSong} = usePlayerStore();
 
     const handleVolume = (volume) => {
         const [newVolume] = volume;
@@ -84,7 +85,10 @@ const VolumeControl = () => {
 
     return (
         <div className="flex justify-center gap-x-2 text-gray-200">
-            <button className="h-4 w-4 opacity-70 hover:opacity-100 transition" onClick={handleSilence}>
+            <button
+                className={`h-4 w-4 ${!currentSong ? 'opacity-25' : 'hover:cursor-pointer opacity-70 hover:opacity-100 transition'}`}
+                disabled={!currentSong}
+                onClick={handleSilence}>
                 {volume > 0 ? <Volume /> : <VolumeSilence />}
             </button>
             <Slider
@@ -92,8 +96,9 @@ const VolumeControl = () => {
                 min={0}
                 max={100}
                 value={[volume * 100]}
-                className='w-[120px] hover:cursor-pointer opacity-90 hover:opacity-100 transition'
+                className={`w-[120px] ${!currentSong ? 'opacity-25' : 'hover:cursor-pointer opacity-90 hover:opacity-100 transition'}`}
                 onValueChange={(volume) => handleVolume(volume)}
+                disabled={!currentSong}
             />
         </div>
     );
@@ -103,10 +108,11 @@ const MusicPlayer = () => {
     const [isShuffle, setIsShuffle] = useState(false);
     const [isRepeat, setIsRepeat] = useState(false);
     const [music, setMusic] = useState(null);
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const audioRef = useRef();
 
-    const { isPlaying, setIsPlaying, playlist, currentPosition, currentSong, setCurrentSong, volume } = usePlayerStore();
+    const { isPlaying, setIsPlaying, playlist, currentPosition, setCurrentPosition, currentSong, setCurrentSong, volume } = usePlayerStore();
 
     const handlePlay = () => {
         setIsPlaying(!isPlaying);
@@ -118,6 +124,17 @@ const MusicPlayer = () => {
 
     const handleRepeat = () => {
         setIsRepeat(!isRepeat);
+    };
+
+    const handleNext = () => {
+        if (isShuffle) {
+            const randomPosition = Math.floor(Math.random() * playlist.length);
+            setCurrentPosition(randomPosition);
+        } else if (currentPosition < playlist.length - 1) {
+            setCurrentPosition(currentPosition + 1);
+        } else {
+            setCurrentPosition(0);
+        }
     };
 
     useEffect(() => {
@@ -140,6 +157,9 @@ const MusicPlayer = () => {
             audioRef.current.src = currentSong.link;
             audioRef.current.volume = volume;
             audioRef.current.play();
+            setIsDisabled(false);
+        } else {
+            setIsDisabled(true);
         }
     }, [currentSong]);
 
@@ -153,6 +173,27 @@ const MusicPlayer = () => {
         audioRef.current.volume = volume;
     }, [volume]);
 
+    useEffect(() => {
+        const audio = audioRef.current;
+
+        const handleTimeUpdate = () => {
+            if (audio.currentTime === audio.duration) {
+              if (isRepeat) {
+                audio.currentTime = 0;
+                audio.play();
+              } else {
+                handleNext();
+              }
+            }
+          };
+
+        audio.addEventListener('timeupdate', handleTimeUpdate);
+
+        return () => {
+          audio.removeEventListener('timeupdate', handleTimeUpdate);
+        };
+      }, [isRepeat, isPlaying]);
+
     return (
         <div className="h-full flex items-center">
             <div className="flex justify-start ml-4 items-center w-96 h-16">
@@ -161,19 +202,38 @@ const MusicPlayer = () => {
             <div className="flex justify-center items-center grow h-16">
                 <div className="flex flex-col items-center">
                     <div className="flex gap-2 items-center mt-2">
-                        <button className={`h-6 w-6 bg-transparent border-transparent pl-1 pr-1 ${isShuffle ? 'fill-white' : 'fill-slate-400'}`} onClick={handleShuffle}>
+                        <button
+                            className={`h-6 w-6 bg-transparent border-transparent pl-1 pr-1 ${isShuffle ? 'fill-white' : 'fill-slate-400'}`}
+                            onClick={handleShuffle}
+                            disabled={isDisabled ? "disabled" : ""}
+                        >
                             <Shuffle />
                         </button>
-                        <button className="btn btn-xs btn-circle bg-gray-300 pl-1 pr-1">
+                        <button
+                            className="btn btn-xs btn-circle bg-gray-300 pl-1 pr-1"
+                            disabled={isDisabled ? "disabled" : ""}
+                        >
                             <Previous />
                         </button>
-                        <button className="btn btn-sm btn-circle bg-gray-300 pl-1 pr-1" onClick={handlePlay}>
+                        <button
+                            className="btn btn-sm btn-circle bg-gray-300 pl-1 pr-1"
+                            onClick={handlePlay}
+                            disabled={isDisabled ? "disabled" : ""}
+                        >
                             {isPlaying ? <Pause /> : <Play />}
                         </button>
-                        <button className="btn btn-xs btn-circle bg-gray-300 pl-1 pr-1">
+                        <button
+                            className="btn btn-xs btn-circle bg-gray-300 pl-1 pr-1"
+                            onClick={handleNext}
+                            disabled={isDisabled ? "disabled" : ""}
+                        >
                             <Next />
                         </button>
-                        <button className={`h-6 w-6 bg-transparent border-transparent pl-1 pr-1 ${isRepeat ? 'fill-white' : 'fill-slate-400'}`} onClick={handleRepeat}>
+                        <button
+                            className={`h-6 w-6 bg-transparent border-transparent pl-1 pr-1 ${isRepeat ? 'fill-white' : 'fill-slate-400'}`}
+                            onClick={handleRepeat}
+                            disabled={isDisabled ? "disabled" : ""}
+                        >
                             <Repeat />
                         </button>
                     </div>
