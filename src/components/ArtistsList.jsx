@@ -23,7 +23,17 @@ const ArtistsList = ({ artists }) => {
   return (
     <div className='overflow-y-auto max-h-full'>
       <ul className='menu bg-base-200'>
-        {artists.length !==0 && <li key={0}><a className='pt-3 pb-3 font-bold' onClick={() => setArtistSelectedId(null)}>All Artists</a></li>}
+        {
+          artists.length !==0 &&
+          <li key={0}>
+            <a
+              className='pt-3 pb-3 font-bold'
+              onClick={() => setArtistSelectedId(null)}
+            >
+              All Artists
+            </a>
+          </li>
+        }
         {artists.map((artist, index) => (
           <li key={index} >
             <a

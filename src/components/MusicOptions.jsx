@@ -1,5 +1,3 @@
-import React from "react";
-
 const MusicOptions = () => {
   return (
     <ul className="menu menu-sm menu-horizontal lg:menu-horizontal bg-base-200 rounded-lg">

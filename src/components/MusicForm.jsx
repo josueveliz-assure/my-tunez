@@ -1,8 +1,4 @@
 import { useState, useEffect } from 'react';
-import TextForm from './form/TextForm';
-import DateForm from './form/DateForm';
-import SelectForm from './form/SelectForm';
-import TimeForm from './form/TimeForm';
 import {
   getAllArtist,
   getAllAlbums,
@@ -12,6 +8,11 @@ import {
 } from '../services/localStorageHandler';
 import { useAlbumStore } from '../stores/useAlbumStore';
 import { useArtistStore } from '../stores/useArtistStore';
+
+import TextForm from './form/TextForm';
+import DateForm from './form/DateForm';
+import SelectForm from './form/SelectForm';
+import TimeForm from './form/TimeForm';
 
 const MusicForm = () => {
   const [title, setTitle] = useState('');
@@ -45,12 +46,12 @@ const MusicForm = () => {
     resetValues();
 
     setSaved(true);
-    console.log(artistId)
-    if (!artistId) {
-      setAlbums(getAllAlbums(true));
-    } else {
-      setAlbums(albumsOfArtist(artist));
-    }
+
+    setAlbums(
+      artistId
+        ? albumsOfArtist(artist)
+        : getAllAlbums(true)
+    );
   };
 
   const save = () => {
@@ -68,25 +69,20 @@ const MusicForm = () => {
   };
 
   useEffect(() => {
-    if (artist) {
-      console.log("#: ", artist);
-      setAlbumList(albumsOfArtist(artist));
-    } else {
-      setAlbumList(getAllAlbums());
-    }
+    setAlbumList(
+      artist
+        ? albumsOfArtist(artist)
+        : getAllAlbums()
+    );
   }, [artist]);
 
   useEffect(() => {
-    if (album) {
-      setArtists(artistsOfAlbum(album));
-    } else {
-      setArtists(getAllArtist());
-    }
+    setArtists(
+      album
+        ? artistsOfAlbum(album)
+        : getAllArtist()
+    );
   }, [album]);
-
-  useEffect(() => {
-    console.log(duration);
-  }, [duration]);
 
   useEffect(() => {
     if (saved) {

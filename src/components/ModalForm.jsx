@@ -15,6 +15,7 @@ const ModalForm = ({ typeForm }) => {
       titleForm = 'Add Artist';
       break;
   }
+
   return (
     <dialog id="form_modal" className="modal">
       <div className="modal-box">

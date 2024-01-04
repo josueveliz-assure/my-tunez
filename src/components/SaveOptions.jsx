@@ -1,18 +1,9 @@
-import React from "react";
 import { useState } from "react";
+
 import addMusicLogo from "../assets/addMusic.svg";
 import addAlbumLogo from "../assets/addAlbum.svg";
 import addArtistLogo from "../assets/addArtist.svg";
-import {
-  getAllArtist,
-  saveArtist,
-  getAllMusic,
-  saveMusic,
-  getAllAlbums,
-  saveAlbum,
-  albumsOfArtist
-} from "../services/localStorageHandler";
-import { loadLocalStorage } from "../services/loader";
+
 import ModalForm from "./ModalForm";
 
 const SaveOptions = () => {

@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import TextForm from './form/TextForm';
-import DateForm from './form/DateForm';
-import SelectForm from './form/SelectForm';
 import {
   saveAlbum,
   getAllArtist,
   albumsOfArtist
 } from '../services/localStorageHandler';
 import { useAlbumStore } from '../stores/useAlbumStore';
+
+import TextForm from './form/TextForm';
+import DateForm from './form/DateForm';
+import SelectForm from './form/SelectForm';
 
 const AlbumForm = () => {
   const [title, setTitle] = useState('');

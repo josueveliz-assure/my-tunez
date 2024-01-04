@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import TextForm from './form/TextForm';
-import MultiValueForm from './form/MultiValueForm';
 import { saveArtist } from '../services/localStorageHandler';
 import { useArtistStore } from '../stores/useArtistStore';
+
+import TextForm from './form/TextForm';
+import MultiValueForm from './form/MultiValueForm';
 
 const ArtistForm = () => {
   const [name, setName] = useState('');
@@ -39,10 +40,6 @@ const ArtistForm = () => {
     saveArtist(newArtist);
     setArtists();
   }
-
-  useEffect(() => {
-    console.log(members);
-  }, [members]);
 
   useEffect(() => {
     if (saved) {
