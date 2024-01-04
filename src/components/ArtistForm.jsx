@@ -54,7 +54,7 @@ const ArtistForm = () => {
       resetValues();
       needResetRef.current = false;
     }
-  }, needResetRef.current);
+  }, [needResetRef.current]);
 
   return (
     <form
@@ -71,13 +71,6 @@ const ArtistForm = () => {
       <TextForm label='website' value={website} onInput={setWebsite} isRequired/>
       <TextForm label='image' value={image} onInput={setImage} isRequired/>
       <div className="modal-action">
-        <button
-          type='button'
-          onClick={() => resetValues()}
-          className="btn btn-outline mr-2"
-        >
-          Reset Values
-        </button>
         <form method="dialog">
           <button
               type='submit'
