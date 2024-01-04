@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import MusicInfo from "./MusicInfo";
 import { usePlayerStore } from "../stores/usePlayerStore";
+import { useMusicStore } from "../stores/useMusicStore";
 import { getMusicById } from "../services/localStorageHandler";
 import Play from '../assets/Play';
 import Pause from '../assets/Pause';
@@ -30,8 +31,10 @@ const MusicPlayer = () => {
         currentSong,
         setCurrentSong,
         volume,
-        hasShuffled
+        hasShuffled,
     } = usePlayerStore();
+
+    const { setMusicId } = useMusicStore();
 
     const handlePlay = () => {
         setIsPlaying(!isPlaying);
@@ -178,6 +181,11 @@ const MusicPlayer = () => {
             buildShufflePlaylist();
         }
     }, [hasShuffled, playlist, currentPosition]);
+
+    useEffect(() => {
+        if(currentSong)
+            setMusicId(currentSong.id);
+    }, [currentSong]);
 
 
     return (

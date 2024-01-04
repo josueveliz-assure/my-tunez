@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import TextForm from './form/TextForm';
 import DateForm from './form/DateForm';
 import SelectForm from './form/SelectForm';
-import { saveAlbum, getAllArtist, albumsOfArtist } from '../services/localStorageHandler';
+import {
+  saveAlbum,
+  getAllArtist,
+  albumsOfArtist
+} from '../services/localStorageHandler';
 import { useAlbumStore } from '../stores/useAlbumStore';
 
 const AlbumForm = () => {
@@ -14,7 +18,7 @@ const AlbumForm = () => {
   const [artist, setArtist] = useState('');
   const [artistList, setArtistList] = useState(getAllArtist());
 
-  const { albums, setAlbums } = useAlbumStore();
+  const { setAlbums } = useAlbumStore();
 
   const resetValues = () => {
     setTitle('');
